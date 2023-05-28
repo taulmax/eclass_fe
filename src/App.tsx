@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./assets/css/reset.css";
+import "./assets/css/styles.css";
+import "react-quill/dist/quill.snow.css";
+import Header from "./components/Header";
+import GnuIndex from "./components/GnuIndex";
+import Schedule from "./components/Schedule";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="app">
+      <Header />
+      <GnuIndex />
+      <Schedule />
+      <Footer />
     </div>
   );
 }
