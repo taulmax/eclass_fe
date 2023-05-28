@@ -17,19 +17,4 @@ const POST = async (url: string, body: any) => {
   return data;
 };
 
-const PATCH = async (url: string, body: any) => {
-  const { data }: AxiosResponse = await instance.patch(url, body, {
-    headers: { Authorization: `Bearer ${localStorage.auth_token}` },
-  });
-  return data;
-};
-
-const DELETE = async (url: string, body: any) => {
-  const { data }: AxiosResponse = await instance.delete(url, {
-    data: body,
-    headers: { Authorization: `Bearer ${localStorage.auth_token}` },
-  });
-  return data;
-};
-
-export const useMyAxios = { GET, POST, PATCH, DELETE };
+export const useMyAxios = { GET, POST };

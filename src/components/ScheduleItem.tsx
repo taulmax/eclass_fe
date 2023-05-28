@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import ReactQuill from "react-quill";
 import Button from "./Button";
 import { useMyAxios } from "../util/api";
+import { toast } from "react-toastify";
 
 const { POST } = useMyAxios;
 
@@ -62,10 +63,18 @@ const ScheduleItem = ({
 
   // 저장 버튼
   const onClickSave = useCallback(() => {
-    POST("http://localhost:8080/save", {
-      data: { id: id, userWritings: quillValue },
-    }).then(() => reload());
-  }, [id, quillValue, reload]);
+    try {
+      POST("http://localhost:8080/save", {
+        data: { id: id, userWritings: quillValue },
+      })
+        .then(() => reload())
+        .then(() => {
+          toast.success(`${title} 정보 변경에 성공했습니다.`);
+        });
+    } catch (e) {
+      toast.error("실패했습니다.");
+    }
+  }, [id, quillValue, reload, title]);
 
   return (
     <div className="schedule_item_wrapper">
