@@ -172,7 +172,6 @@ header #logo {
     width: 100%;
     background-color: #fff;
     padding: 10px 20px 20px 20px;
-    color: #8f8f8f;
 }
 
 .item_detail .description {
@@ -204,6 +203,12 @@ header #logo {
 
 .custom_quill_wrapper_button_wrapper button:first-child {
     margin-right: 4px;
+}
+
+.user_writings {
+    border: 1px solid #d4d4d4;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 footer {

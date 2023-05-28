@@ -13,9 +13,7 @@ const GET = async (url: string) => {
 };
 
 const POST = async (url: string, body: any) => {
-  const { data }: AxiosResponse = await instance.post(url, body, {
-    headers: { Authorization: `Bearer ${localStorage.auth_token}` },
-  });
+  const { data }: AxiosResponse = await instance.post(url, body);
   return data;
 };
 

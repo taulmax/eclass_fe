@@ -105,11 +105,15 @@ const Schedule = () => {
         {assingmentList.map((assignment) => (
           <ScheduleItem
             key={assignment.id}
+            id={assignment.id}
             title={assignment.title}
             lecture={assignment.lecture}
             prof={assignment.prof}
             date={assignment.date}
             detail={assignment.detail}
+            isDone={assignment.isDone}
+            userWritings={assignment.userWritings}
+            reload={onClickUnresolvedAssignment}
           />
         ))}
       </div>

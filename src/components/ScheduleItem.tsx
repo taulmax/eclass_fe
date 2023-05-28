@@ -1,19 +1,30 @@
 import React, { useCallback, useState } from "react";
 import ReactQuill from "react-quill";
 import Button from "./Button";
+import { useMyAxios } from "../util/api";
+
+const { POST } = useMyAxios;
 
 const ScheduleItem = ({
+  id,
   title,
   lecture,
   prof,
   date,
   detail,
+  isDone,
+  userWritings,
+  reload,
 }: {
+  id: number;
   title: string;
   lecture: string;
   prof: string;
   date: string;
   detail: string;
+  isDone: boolean;
+  userWritings: string;
+  reload: () => void;
 }) => {
   const [mode, setMode] = useState<"hidden" | "detail" | "submit" | "done">(
     "hidden"
@@ -22,12 +33,20 @@ const ScheduleItem = ({
   const [quillValue, setQuillValue] = useState<string>("");
 
   const onClickDetail = useCallback(() => {
-    if (mode === "detail") {
-      setMode("hidden");
+    if (isDone) {
+      if (mode === "done") {
+        setMode("hidden");
+      } else {
+        setMode("done");
+      }
     } else {
-      setMode("detail");
+      if (mode === "detail") {
+        setMode("hidden");
+      } else {
+        setMode("detail");
+      }
     }
-  }, [mode]);
+  }, [isDone, mode]);
 
   const onClickSubmit = useCallback(() => {
     if (mode === "submit") {
@@ -35,7 +54,18 @@ const ScheduleItem = ({
     } else {
       setMode("submit");
     }
-  }, [mode]);
+
+    if (isDone) {
+      setQuillValue(userWritings);
+    }
+  }, [isDone, mode, userWritings]);
+
+  // 저장 버튼
+  const onClickSave = useCallback(() => {
+    POST("http://localhost:8080/save", {
+      data: { id: id, userWritings: quillValue },
+    }).then(() => reload());
+  }, [id, quillValue, reload]);
 
   return (
     <div className="schedule_item_wrapper">
@@ -44,7 +74,11 @@ const ScheduleItem = ({
         <div className="item_right">
           <div className="item_button_wrapper">
             <Button text="상세" onClick={onClickDetail} />
-            <Button text="작성" onClick={onClickSubmit} />
+            {isDone ? (
+              <Button text="수정" onClick={onClickSubmit} />
+            ) : (
+              <Button text="작성" onClick={onClickSubmit} />
+            )}
           </div>
           <div className="item_info">
             <span>
@@ -71,12 +105,22 @@ const ScheduleItem = ({
             />
             <div className="custom_quill_wrapper_button_wrapper">
               <Button text="취소" onClick={() => setQuillValue("")} />
-              <Button text="저장" />
+              <Button text="저장" onClick={onClickSave} />
             </div>
           </div>
         </div>
       )}
-      {mode === "done" && <div className="item_finish"></div>}
+      {mode === "done" && (
+        <div className="item_finish">
+          <div className="item_detail">
+            <pre className="description">{detail}</pre>
+            <pre
+              className="user_writings"
+              dangerouslySetInnerHTML={{ __html: userWritings }}
+            ></pre>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
