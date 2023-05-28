@@ -176,8 +176,11 @@ header #logo {
 }
 
 .item_detail .description {
+    font-family: inherit;
+    font-size: 14px;
     background-color: #ededed;
     padding: 20px;
+    white-space: break-spaces;
 }
 
 .item_submit .item_detail {

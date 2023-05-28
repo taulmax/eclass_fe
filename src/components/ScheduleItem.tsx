@@ -7,11 +7,13 @@ const ScheduleItem = ({
   lecture,
   prof,
   date,
+  detail,
 }: {
   title: string;
   lecture: string;
   prof: string;
   date: string;
+  detail: string;
 }) => {
   const [mode, setMode] = useState<"hidden" | "detail" | "submit" | "done">(
     "hidden"
@@ -53,19 +55,13 @@ const ScheduleItem = ({
       </div>
       {mode === "detail" && (
         <div className="item_detail">
-          <div className="description">
-            메인 액티비티의 레이아웃을 구현하도록 하세요! <br />
-            프로젝트를 압축하여 제출하면 됩니다!
-          </div>
+          <pre className="description">{detail}</pre>
         </div>
       )}
       {mode === "submit" && (
         <div className="item_submit">
           <div className="item_detail">
-            <div className="description">
-              메인 액티비티의 레이아웃을 구현하도록 하세요! <br />
-              프로젝트를 압축하여 제출하면 됩니다!
-            </div>
+            <pre className="description">{detail}</pre>
           </div>
           <div className="custom_quill_wrapper">
             <ReactQuill

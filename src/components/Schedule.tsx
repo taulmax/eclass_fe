@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "./Button";
 import ScheduleItem from "./ScheduleItem";
+import { useMyAxios } from "../util/api";
+
+const { GET } = useMyAxios;
 
 const Schedule = () => {
+  const [assingmentList, setAssignmentList] = useState<any[]>([]);
+  const [mode, setMode] = useState<"unresolved" | "resolved">("unresolved");
+
+  useEffect(() => {
+    GET("http://localhost:8080/unresolved").then((res) => {
+      setAssignmentList(res);
+      setMode("unresolved");
+    });
+  }, []);
+
+  const onClickResolvedAssignment = useCallback(() => {
+    GET("http://localhost:8080/resolved").then((res) => {
+      setAssignmentList(res);
+      setMode("resolved");
+    });
+  }, []);
+
+  const onClickUnresolvedAssignment = useCallback(() => {
+    GET("http://localhost:8080/unresolved").then((res) => {
+      setAssignmentList(res);
+      setMode("unresolved");
+    });
+  }, []);
+
   return (
     <div className="contents">
       <div className="search_box">
@@ -17,34 +44,27 @@ const Schedule = () => {
         <span>일정</span>
         <span>2023.05</span>
         <span>
-          <Button text="완료 과제 조회" />
+          {mode === "unresolved" ? (
+            <Button text="완료 과제 조회" onClick={onClickResolvedAssignment} />
+          ) : (
+            <Button
+              text="미해결 과제 조회"
+              onClick={onClickUnresolvedAssignment}
+            />
+          )}
         </span>
       </div>
       <div className="schedule_body">
-        <ScheduleItem
-          title="미니프로젝트"
-          lecture="웹프로그래밍"
-          prof="정진우"
-          date="2023-05-20"
-        />
-        <ScheduleItem
-          title="미니프로젝트"
-          lecture="웹프로그래밍"
-          prof="정진우"
-          date="2023-05-20"
-        />
-        <ScheduleItem
-          title="미니프로젝트"
-          lecture="웹프로그래밍"
-          prof="정진우"
-          date="2023-05-20"
-        />
-        <ScheduleItem
-          title="미니프로젝트"
-          lecture="웹프로그래밍"
-          prof="정진우"
-          date="2023-05-20"
-        />
+        {assingmentList.map((assignment) => (
+          <ScheduleItem
+            key={assignment.id}
+            title={assignment.title}
+            lecture={assignment.lecture}
+            prof={assignment.prof}
+            date={assignment.date}
+            detail={assignment.detail}
+          />
+        ))}
       </div>
     </div>
   );
