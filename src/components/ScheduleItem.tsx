@@ -64,7 +64,7 @@ const ScheduleItem = ({
   // 저장 버튼
   const onClickSave = useCallback(() => {
     try {
-      POST("http://localhost:8080/save", {
+      POST("/save", {
         data: { id: id, userWritings: quillValue },
       })
         .then(() => reload())

@@ -16,7 +16,7 @@ const Schedule = () => {
 
   // 처음에 미해결 과제 뽑아주기
   useEffect(() => {
-    GET("http://localhost:8080/unresolved").then((res) => {
+    GET("/unresolved").then((res) => {
       setAssignmentList(res);
       setMode("unresolved");
     });
@@ -24,7 +24,7 @@ const Schedule = () => {
 
   // 완료된 과제 보기
   const onClickResolvedAssignment = useCallback(() => {
-    GET("http://localhost:8080/resolved").then((res) => {
+    GET("/resolved").then((res) => {
       setAssignmentList(res);
       setMode("resolved");
     });
@@ -32,7 +32,7 @@ const Schedule = () => {
 
   // 미해결 과제 보기
   const onClickUnresolvedAssignment = useCallback(() => {
-    GET("http://localhost:8080/unresolved").then((res) => {
+    GET("/unresolved").then((res) => {
       setAssignmentList(res);
       setMode("unresolved");
     });
@@ -44,7 +44,7 @@ const Schedule = () => {
       onClickUnresolvedAssignment();
     } else {
       GET(
-        `http://localhost:8080/search/${selectRef.current?.value}/${searchText.current?.value}`
+        `/search/${selectRef.current?.value}/${searchText.current?.value}`
       ).then((res) => {
         setAssignmentList(res);
         setMode("search");
